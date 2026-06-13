@@ -1,0 +1,84 @@
+import streamlit as st
+import joblib
+import numpy as np
+import os
+
+# ── Page config ───────────────────────────────────────────────────────────────
+st.set_page_config(page_title="Soil Analysis", page_icon="🌱", layout="centered")
+
+# ── Load the trained model ────────────────────────────────────────────────────
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+model_path = os.path.join(BASE_DIR, "models", "soil_model.pkl")
+
+@st.cache_resource
+def load_model():
+    return joblib.load(model_path)
+
+model = load_model()
+
+# ── Page title ────────────────────────────────────────────────────────────────
+st.title("🌱 Soil Condition Analysis")
+st.markdown("Enter your soil values below to find out if your soil is **Good**, **Average**, or **Poor**.")
+st.divider()
+
+# ── Input sliders ─────────────────────────────────────────────────────────────
+col1, col2 = st.columns(2)
+
+with col1:
+    nitrogen   = st.slider("Nitrogen (N)",   min_value=0,   max_value=140, value=50, step=1)
+    phosphorus = st.slider("Phosphorus (P)", min_value=0,   max_value=100, value=30, step=1)
+    potassium  = st.slider("Potassium (K)",  min_value=0,   max_value=100, value=25, step=1)
+
+with col2:
+    ph       = st.slider("Soil pH",     min_value=0.0, max_value=14.0, value=6.5, step=0.1)
+    moisture = st.slider("Moisture (%)", min_value=0,   max_value=100,  value=50,  step=1)
+
+st.divider()
+
+# ── Predict button ────────────────────────────────────────────────────────────
+if st.button("🔍 Analyse Soil", use_container_width=True, type="primary"):
+
+    input_data = np.array([[nitrogen, phosphorus, potassium, ph, moisture]])
+    prediction = model.predict(input_data)[0]
+
+    # ── Show result ───────────────────────────────────────────────────────────
+    st.subheader("Result")
+
+    if prediction == "Good":
+        st.success("✅ Your soil is in **Good** condition!")
+        st.markdown("""
+        **Recommendations:**
+        - Your soil nutrients are well-balanced. Great job!
+        - Continue regular watering and monitoring.
+        - Suitable crops: Rice, Wheat, Sugarcane, Maize.
+        """)
+
+    elif prediction == "Average":
+        st.warning("⚠️ Your soil is in **Average** condition.")
+        st.markdown("""
+        **Recommendations:**
+        - Add organic compost to improve nitrogen levels.
+        - Apply balanced NPK fertiliser.
+        - Monitor pH and keep it between 6.0 – 7.0.
+        - Suitable crops: Millets, Pulses, Vegetables.
+        """)
+
+    else:
+        st.error("❌ Your soil is in **Poor** condition.")
+        st.markdown("""
+        **Recommendations:**
+        - Soil needs urgent improvement before planting.
+        - Apply lime to raise pH if it is too acidic.
+        - Add heavy organic matter (compost, manure).
+        - Test soil with a lab kit for detailed analysis.
+        - Avoid planting until condition improves.
+        """)
+
+    # ── Show input summary ────────────────────────────────────────────────────
+    with st.expander("📋 Your Input Summary"):
+        st.write(f"- Nitrogen: **{nitrogen}**")
+        st.write(f"- Phosphorus: **{phosphorus}**")
+        st.write(f"- Potassium: **{potassium}**")
+        st.write(f"- pH: **{ph}**")
+        st.write(f"- Moisture: **{moisture}%**")
+        st.write(f"- Prediction: **{prediction}**")
