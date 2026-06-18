@@ -2,13 +2,25 @@ import streamlit as st
 import joblib
 import numpy as np
 import os
+import sys
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Pest Risk", page_icon="🐛", layout="centered")
 
-# ── Load model and encoder ────────────────────────────────────────────────────
+# ── Setup paths ───────────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.join(BASE_DIR, "models"))
+from database import save_report
 
+# ── Require login ─────────────────────────────────────────────────────────────
+if "farmer" not in st.session_state or not st.session_state.farmer:
+    st.warning("⚠️ Please log in first to use this feature.")
+    st.info("👈 Go to the **login** page in the sidebar.")
+    st.stop()
+
+farmer = st.session_state.farmer
+
+# ── Load model and encoder ────────────────────────────────────────────────────
 @st.cache_resource
 def load_model():
     model   = joblib.load(os.path.join(BASE_DIR, "models", "pest_model.pkl"))
@@ -19,7 +31,7 @@ model, encoder = load_model()
 
 # ── Page title ────────────────────────────────────────────────────────────────
 st.title("🐛 Pest Risk Prediction")
-st.markdown("Enter your farm's weather conditions to predict the pest risk level.")
+st.markdown(f"Welcome, **{farmer['name']}**! Enter your farm's weather conditions.")
 st.divider()
 
 # ── Inputs ────────────────────────────────────────────────────────────────────
@@ -37,7 +49,6 @@ with col1:
 with col2:
     rainfall = st.slider("Rainfall (mm)", min_value=0, max_value=300, value=50, step=5)
 
-    # Visual hint based on current slider values
     if temperature >= 33 and humidity >= 80:
         st.warning("⚠️ High temp + humidity detected")
     elif temperature <= 20 and humidity <= 40:
@@ -48,11 +59,16 @@ st.divider()
 # ── Predict ───────────────────────────────────────────────────────────────────
 if st.button("🔍 Predict Pest Risk", use_container_width=True, type="primary"):
 
-    # Convert crop name to number using the saved encoder
     crop_encoded = encoder.transform([crop_type])[0]
-
     input_data = np.array([[temperature, humidity, rainfall, crop_encoded]])
     prediction = model.predict(input_data)[0]
+
+    # ── Save to database ─────────────────────────────────────────────────────
+    inputs_dict = {
+        "Crop": crop_type, "Temperature": temperature,
+        "Humidity": humidity, "Rainfall": rainfall
+    }
+    save_report(farmer["id"], "pest", inputs_dict, prediction)
 
     st.subheader("Result")
 
@@ -91,13 +107,13 @@ if st.button("🔍 Predict Pest Risk", use_container_width=True, type="primary")
         - Keep records of weather for future predictions.
         """)
 
-    # ── Risk meter ────────────────────────────────────────────────────────────
+    st.caption("✅ This report has been saved to your dashboard.")
+
     st.subheader("Risk Level Meter")
     risk_value = {"Low": 15, "Medium": 50, "High": 90}
     st.progress(risk_value[prediction])
     st.caption(f"Risk score: {risk_value[prediction]}/100")
 
-    # ── Input summary ─────────────────────────────────────────────────────────
     with st.expander("📋 Your Input Summary"):
         st.write(f"- Crop Type: **{crop_type}**")
         st.write(f"- Temperature: **{temperature}°C**")

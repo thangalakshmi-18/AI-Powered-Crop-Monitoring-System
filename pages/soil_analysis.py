@@ -2,12 +2,25 @@ import streamlit as st
 import joblib
 import numpy as np
 import os
+import sys
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Soil Analysis", page_icon="🌱", layout="centered")
 
-# ── Load the trained model ────────────────────────────────────────────────────
+# ── Setup paths ───────────────────────────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.join(BASE_DIR, "models"))
+from database import save_report
+
+# ── Require login ─────────────────────────────────────────────────────────────
+if "farmer" not in st.session_state or not st.session_state.farmer:
+    st.warning("⚠️ Please log in first to use this feature.")
+    st.info("👈 Go to the **login** page in the sidebar.")
+    st.stop()
+
+farmer = st.session_state.farmer
+
+# ── Load the trained model ────────────────────────────────────────────────────
 model_path = os.path.join(BASE_DIR, "models", "soil_model.pkl")
 
 @st.cache_resource
@@ -18,7 +31,7 @@ model = load_model()
 
 # ── Page title ────────────────────────────────────────────────────────────────
 st.title("🌱 Soil Condition Analysis")
-st.markdown("Enter your soil values below to find out if your soil is **Good**, **Average**, or **Poor**.")
+st.markdown(f"Welcome, **{farmer['name']}**! Enter your soil values below.")
 st.divider()
 
 # ── Input sliders ─────────────────────────────────────────────────────────────
@@ -40,6 +53,13 @@ if st.button("🔍 Analyse Soil", use_container_width=True, type="primary"):
 
     input_data = np.array([[nitrogen, phosphorus, potassium, ph, moisture]])
     prediction = model.predict(input_data)[0]
+
+    # ── Save to database ─────────────────────────────────────────────────────
+    inputs_dict = {
+        "Nitrogen": nitrogen, "Phosphorus": phosphorus,
+        "Potassium": potassium, "pH": ph, "Moisture": moisture
+    }
+    save_report(farmer["id"], "soil", inputs_dict, prediction)
 
     # ── Show result ───────────────────────────────────────────────────────────
     st.subheader("Result")
@@ -74,7 +94,8 @@ if st.button("🔍 Analyse Soil", use_container_width=True, type="primary"):
         - Avoid planting until condition improves.
         """)
 
-    # ── Show input summary ────────────────────────────────────────────────────
+    st.caption("✅ This report has been saved to your dashboard.")
+
     with st.expander("📋 Your Input Summary"):
         st.write(f"- Nitrogen: **{nitrogen}**")
         st.write(f"- Phosphorus: **{phosphorus}**")
