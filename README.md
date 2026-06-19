@@ -1,12 +1,12 @@
-# 🌱 CropSense AI — Smart Crop Monitoring System
+# 🌱 AI-Powered-Crop-Monitoring-System
 
 ## Overview
-CropSense AI is a machine learning-based web application that helps analyze soil conditions and provide intelligent farming insights. It uses Python, Streamlit, and a trained ML model to convert soil data into meaningful predictions for better agricultural decisions.
+AI-Powered-Crop-Monitoring-System is a machine learning-based web application that helps analyze soil conditions and provide smart agricultural insights. It uses Python, Streamlit, and a trained ML model to convert soil data into meaningful predictions.
 
 ---
 
 ## What This Project Does
-This system takes soil inputs like Nitrogen, Phosphorus, Potassium, pH, and Moisture, processes them using a trained model, and predicts the soil condition. The results are shown in a simple dashboard for easy understanding.
+The system takes soil parameters like Nitrogen, Phosphorus, Potassium, pH, and Moisture as input, processes them using a trained machine learning model, and predicts the soil condition. The result is displayed in a simple and interactive dashboard.
 
 ---
 
@@ -14,9 +14,9 @@ This system takes soil inputs like Nitrogen, Phosphorus, Potassium, pH, and Mois
 - Soil condition prediction (Good / Moderate / Poor)
 - Machine learning-based analysis
 - Interactive Streamlit dashboard
-- Simple login and admin panel
-- Clean and structured UI
+- Login and admin panel system
 - Fast real-time prediction
+- Clean and simple UI
 
 ---
 
@@ -56,25 +56,27 @@ AI-Powered-Crop-Monitoring-System/
 
 ### 1. Clone the repository
 git clone https://github.com/your-username/AI-Powered-Crop-Monitoring-System.git
+
 cd AI-Powered-Crop-Monitoring-System
 
 ### 2. Create virtual environment
 python -m venv venv
+
 venv\Scripts\activate   (Windows)
 
 ### 3. Install dependencies
 pip install -r requirements.txt
 
-### 4. Run the app
+### 4. Run the application
 streamlit run app.py
 
 ---
 
 ## How It Works
-- User enters soil values
-- ML model processes input
-- System predicts soil condition
-- Result is displayed in dashboard
+1. User enters soil parameters (N, P, K, pH, moisture)
+2. ML model processes the input
+3. System predicts soil condition
+4. Result is shown in dashboard
 
 ---
 
@@ -83,11 +85,16 @@ streamlit run app.py
 - Crop disease detection using CNN
 - IoT sensor integration
 - Fertilizer recommendation system
-- Mobile version
+- Mobile app version
 
 ---
 
 ## Author
 Thangalakshmi A  
-B.E CSE (AI & ML)  
+B.E CSE (Artificial Intelligence & Machine Learning)  
 GitHub: thangalakshmi-18
+
+---
+
+## License
+This project is for educational purposes only.
