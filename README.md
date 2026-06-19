@@ -93,8 +93,3 @@ streamlit run app.py
 Thangalakshmi A  
 B.E CSE (Artificial Intelligence & Machine Learning)  
 GitHub: thangalakshmi-18
-
----
-
-## License
-This project is for educational purposes only.
