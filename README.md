@@ -36,3 +36,4 @@ This project was developed following a structured academic schedule as per engin
 | Jun-28 | Bug Fixing & Validation | Tested Project |
 | Jun-29 | Documentation & PPT Preparation | Project Report & PPT |
 | Jun-30 | Final Demo & Submission | Final Project Submission |
+> This schedule represents the complete structured development lifecycle of the AI-powered Crop Monitoring System from planning to deployment.
