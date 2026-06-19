@@ -1,39 +1,93 @@
-# AI-Powered-Crop-Monitoring-System
-AI-powered monitoring system for crop health analysis, soil condition assessment, and pest risk prediction using Machine Learning and Computer Vision.
-## 📅 Project Implementation Schedule
+# 🌱 CropSense AI — Smart Crop Monitoring System
 
-This project was developed following a structured academic schedule as per engineering college requirements.
+## Overview
+CropSense AI is a machine learning-based web application that helps analyze soil conditions and provide intelligent farming insights. It uses Python, Streamlit, and a trained ML model to convert soil data into meaningful predictions for better agricultural decisions.
 
-| Date   | Activity | Deliverable |
-|--------|----------|-------------|
-| Jun-01 | Project Title Finalization | Approved Project Title |
-| Jun-02 | Requirement Gathering | Problem Statement |
-| Jun-03 | Objective Definition | Project Objectives |
-| Jun-04 | User & Module Identification | Module List |
-| Jun-05 | Use Case Diagram Preparation | Use Case Diagram Submission |
-| Jun-06 | Database Requirement Analysis | Table List |
-| Jun-07 | ER Diagram Design | ER Diagram |
-| Jun-08 | Database Schema Creation | SQL Schema |
-| Jun-09 | UI Wireframe Design | Page Layouts |
-| Jun-10 | Login & Dashboard UI Design | UI Screens |
-| Jun-11 | Navigation & Form Design | UI Prototype |
-| Jun-12 | Design Review | Design Approval |
-| Jun-13 | Frontend Environment Setup | Streamlit Project Setup |
-| Jun-14 | Login Page Development | Login Module |
-| Jun-15 | Registration Page Development | Registration Module |
-| Jun-16 | Dashboard Development | Dashboard UI |
-| Jun-17 | CRUD Form Development | Forms Completed |
-| Jun-18 | Table & Search Features | Data Listing |
-| Jun-19 | Frontend Testing | Frontend Review |
-| Jun-20 | Project Setup | Backend Setup |
-| Jun-21 | Database Connectivity | DB Connection |
-| Jun-22 | Entity Creation | Model Classes |
-| Jun-23 | Model Development | ML Model Training |
-| Jun-24 | Authentication Module | Login API |
-| Jun-25 | Backend Logic | Service Layer |
-| Jun-26 | Model Testing | Testing Report |
-| Jun-27 | Frontend & Backend Integration | Working Application |
-| Jun-28 | Bug Fixing & Validation | Tested Project |
-| Jun-29 | Documentation & PPT Preparation | Project Report & PPT |
-| Jun-30 | Final Demo & Submission | Final Project Submission |
-> This schedule represents the complete structured development lifecycle of the AI-powered Crop Monitoring System from planning to deployment.
+---
+
+## What This Project Does
+This system takes soil inputs like Nitrogen, Phosphorus, Potassium, pH, and Moisture, processes them using a trained model, and predicts the soil condition. The results are shown in a simple dashboard for easy understanding.
+
+---
+
+## Features
+- Soil condition prediction (Good / Moderate / Poor)
+- Machine learning-based analysis
+- Interactive Streamlit dashboard
+- Simple login and admin panel
+- Clean and structured UI
+- Fast real-time prediction
+
+---
+
+## Tech Stack
+- Python
+- Streamlit
+- Pandas
+- NumPy
+- Scikit-learn
+- Pickle
+
+---
+
+## Project Structure
+AI-Powered-Crop-Monitoring-System/
+│
+├── app.py
+├── admin_panel.py
+├── pages/
+│   ├── login.py
+│   ├── dashboard.py
+│   └── admin_panel.py
+│
+├── datasets/
+│   └── soil_data.csv
+│
+├── models/
+│   └── trained_model.pkl
+│
+├── assets/
+├── requirements.txt
+└── README.md
+
+---
+
+## How to Run
+
+### 1. Clone the repository
+git clone https://github.com/your-username/AI-Powered-Crop-Monitoring-System.git
+cd AI-Powered-Crop-Monitoring-System
+
+### 2. Create virtual environment
+python -m venv venv
+venv\Scripts\activate   (Windows)
+
+### 3. Install dependencies
+pip install -r requirements.txt
+
+### 4. Run the app
+streamlit run app.py
+
+---
+
+## How It Works
+- User enters soil values
+- ML model processes input
+- System predicts soil condition
+- Result is displayed in dashboard
+
+---
+
+## Future Improvements
+- Weather API integration
+- Crop disease detection using CNN
+- IoT sensor integration
+- Fertilizer recommendation system
+- Mobile version
+
+---
+
+## Author
+Thangalakshmi A  
+B.E CSE (AI & ML)  
+GitHub: thangalakshmi-18
