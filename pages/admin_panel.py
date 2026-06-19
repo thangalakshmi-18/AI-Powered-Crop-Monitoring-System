@@ -61,11 +61,11 @@ st.divider()
 stats = get_stats_summary()
 
 c1, c2, c3, c4, c5 = st.columns(5)
-c1.metric("👨‍🌾 Total Farmers", stats["total_farmers"])
-c2.metric("📋 Total Reports", stats["total_reports"])
-c3.metric("🌱 Soil Reports", stats["soil_reports"])
-c4.metric("🐛 Pest Reports", stats["pest_reports"])
-c5.metric("📷 Crop Reports", stats["crop_reports"])
+c1.metric("👨‍🌾 Total Farmers", stats["farmers"])
+c2.metric("📋 Total Reports", stats["reports"])
+c3.metric("🌱 Soil Reports", stats["soil"])
+c4.metric("🐛 Pest Reports", stats["pest"])
+c5.metric("📷 Crop Reports", stats["crop"])
 
 st.divider()
 
@@ -103,6 +103,9 @@ with tab_farmers:
 # ════════════════════════════════════════════════════════════════════════════
 with tab_reports:
     reports = get_all_reports()
+
+    st.write("DEBUG:", reports[:5])
+    st.stop()
 
     if not reports:
         st.info("No reports submitted yet.")
